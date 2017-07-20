@@ -6,7 +6,7 @@ var UserSchema = new Schema({
     email: String,
     username: String,
     password: String,
-    avatar: String
+    avatar: { type: String, default: 'https://semantic-ui.com/images/avatar/large/elliot.jpg' }
 }, { timestamps: true });
 
 var Users = mongoose.model('Users', UserSchema);

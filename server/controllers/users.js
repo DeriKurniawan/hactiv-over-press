@@ -11,6 +11,14 @@ models.getAll = function (req, res) {
     })
 }
 
+models.getOne = function (req, res) {
+    User.findById(req.params.id)
+    .exec( (err, resposne) => {
+        if(err) res.send({ message: 'Kesalahan tidak dapat memuat data user', error: err });
+        res.send(result);
+    })
+}
+
 models.signup = function (req, res) {
     req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
     User.findOne({
