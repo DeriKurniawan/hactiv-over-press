@@ -14,8 +14,8 @@ mongoose.connect(url, (err)=>{
 });
 
 //router declare
-var article = require('./router/article');
-var user = require('./router/user');
+var article = require('./routes/article');
+var user = require('./routes/user');
 
 //app declare
 var app = express();
@@ -25,8 +25,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //router use
-app.use('/api/user', user);
 app.use('/api/article', article);
+app.use('/api/user', user);
 
 //app connect port
 app.listen(process.env.PORT, ()=>{

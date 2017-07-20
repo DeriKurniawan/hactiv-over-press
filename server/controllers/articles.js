@@ -1,7 +1,7 @@
 const Article = require('../models/Article');
 var models = {}
 
-models.getOne = function (req, res) {
+models.get = function (req, res) {
     Article.find()
     .populate('author')
     .exec( (err, result) => {
@@ -16,7 +16,7 @@ models.getOne = function (req, res) {
     })
 }
 
-models.get = function (req, res) {
+models.getOne = function (req, res) {
     let id = req.params.id
     Article.findById(id)
     .populate('author')
@@ -92,7 +92,7 @@ models.update = function (req, res) {
     })
 }
 
-models.remmove = function (req, res) {
+models.remove = function (req, res) {
     Article.findByIdAndRemove(req.params.id, (err, result) => {
         if(err) {
             res.send({

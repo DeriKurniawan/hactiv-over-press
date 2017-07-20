@@ -5,7 +5,7 @@ var models = {};
 
 models.getAll = function (req, res) {
     User.find()
-    .exec( (err, resposne) => {
+    .exec( (err, result) => {
         if(err) res.send({ message: 'Kesalahan tidak dapat memuat data user', error: err });
         res.send(result);
     })
@@ -13,7 +13,7 @@ models.getAll = function (req, res) {
 
 models.getOne = function (req, res) {
     User.findById(req.params.id)
-    .exec( (err, resposne) => {
+    .exec( (err, result) => {
         if(err) res.send({ message: 'Kesalahan tidak dapat memuat data user', error: err });
         res.send(result);
     })
@@ -21,6 +21,7 @@ models.getOne = function (req, res) {
 
 models.signup = function (req, res) {
     req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10));
+    req.body.avatar = req.body.avatar || 'https://semantic-ui.com/images/avatar/large/elliot.jpg'
     User.findOne({
         username: req.body.username
     })
@@ -44,7 +45,7 @@ models.signin = function (req, res) {
     .exec( (err, data) => {
         if(err) res.send({ message: 'Kesalahan tidak dapat memuat data user', error: err })
         if (data) {
-            if(!bcrypt.compareSync(password, data.password)){
+            if(!bcrypt.compareSync(req.body.password, data.password)){
                  res.send({ message: 'Password yang anda masukkan salah' });
             } else {
                 var token = jwt.sign({
