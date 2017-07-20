@@ -19,7 +19,7 @@ export default new Router({
           component: Article
         },
         {
-          path: 'signin',
+          path: 'signin/',
           name: 'signin',
           component: Signin
         }

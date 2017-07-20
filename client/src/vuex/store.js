@@ -13,11 +13,18 @@ const Store = new Vuex.Store({
             email: '',
             token: ''
         },
-        isLogin: false
+        isLogin: false,
+        articles: []
     },
     getters: {
         getUserData (state) {
             return state.user;
+        },
+        getArticlesData (state) {
+            return state.articles;
+        },
+        getLoginStatus (state) {
+            return state.isLogin;
         }
     },
     mutations: {
@@ -31,6 +38,12 @@ const Store = new Vuex.Store({
         },
         setSigninInfo (state) {
             return state.isLogin = true;
+        },
+        setUserData (state, userData) {
+            return state.user = userData
+        },
+        setArticleData (state, articlesData) {
+            return state.articles = articlesData
         }
     },
     actions: {
@@ -62,7 +75,16 @@ const Store = new Vuex.Store({
                 if(response.data.message !== 'Username yang anda masukkan belum terdaftar'){
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('_id', response.data.id);
-                    commit('setSigninInfo')
+                    axios.get('http://localhost:3000/api/user/'+response.data.id)
+                    .then((user)=>{
+                        let userData = {
+                            id: user.data._id,
+                            name: user.data.name,
+                            email: user.data,
+                            token: response.data.token
+                        }
+                        commit('setDeleteUserData', userData)
+                    })
                 }
             })
         },
@@ -74,6 +96,42 @@ const Store = new Vuex.Store({
         },
         checkTokenFromLocalStorageMethod ({ commit }) {
             if(localStorage.token) commit('setSigninInfo');
+        },
+        apiAllArticleMethod ({commit}) {
+            axios.get('http://localhost:3000/api/article/')
+            .then((response)=>{
+                let articles = response.data;
+                commit('setArticlesData', articles);
+            })
+            .catch((err)=>{
+                console.log(err);
+                alert('Kesalahan di server database');
+            })
+        },
+        apiCreateNewArticleMethod ({commit}, newArticles) {
+            axios.post('http://localhost:3000/api/article/', {
+                title: newArticles.title,
+                content: newArticles.question,
+                category: newArticles.category,
+                author: localStorage._id
+            }, {
+                headers: { token: localStorage.token }
+            })
+            .then((response)=>{
+                alert('Berhasil menambah article baru');
+                axios.get('http://localhost:3000/api/article/')
+                .then((articles)=>{
+                    commit('setArticlesData', articles.data);
+                })
+                .catch((err)=>{
+                    console.log(err);
+                    alert('Kesalahan di server database');
+                })
+            })
+            .catch((err)=>{
+                alert('Tidak dapat melanjutkan Anda harus login terlebih dahulu!');
+                console.log(err)
+            })
         }
     }
 })

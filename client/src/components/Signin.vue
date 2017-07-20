@@ -41,10 +41,6 @@
                         <label>Password: </label>
                         <input type="password" placeholder="Masukkan password.." v-model="userSignup.password">
                     </div>
-                    <div class="field">
-                        <label>Address: </label>
-                        <textarea rows="2" v-model="userSignup.address"></textarea>
-                    </div>
                     <button class="ui huge orange button" @click="submitUserSignup">Register</button>
                 </form>
             </div>
@@ -53,9 +49,48 @@
 </template>
 
 <script>
-    export default {
-        name: 'signin'
+import { mapGetters, mapActions } from 'vuex'
+
+export default {
+    name: 'signin',
+    data () {
+        return {
+            userSignin: {
+                username: '',
+                password: ''
+            },
+            userSignup: {
+                fullname: '',
+                email: '',
+                username: '',
+                password: '',
+                address: ''
+            }
+        }
+    },
+    methods: {
+        ...mapActions([
+            'userSigninMethod',
+            'userSignupMethod'
+        ]),
+        submitUserSignin () {
+            console.log('userSignin----', this.userSignin);
+            this.userSigninMethod(this.userSignin);
+            this.$router.push('/');
+            this.userSignup = {
+                fullname: '',
+                email: '',
+                username: '',
+                password: '',
+                address: ''
+            }
+        },
+        submitUserSignup () {
+            console.log('userSignup----', this.userSignup);
+            this.userSignupMethod(this.userSignup);
+        }
     }
+}
 </script>
 
 <style scoped>

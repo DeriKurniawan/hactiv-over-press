@@ -22,13 +22,13 @@
           <router-link to="/signin" active-class="active" class="item" exact v-if="!isLogin">
             Login
           </router-link>
-          <a class="item">
+          <a class="item" @click="userSignoutMethod" v-if="isLogin">
             Sign Out
           </a>
         </div>
       </div>
     </div>
-    <!--<router-view></router-view>-->
+    <router-view></router-view>
     <div class="ui fluid container" style="padding-top: 40px;">
           <div class="ui inverted vertical footer segment" style="height: 230px; padding-top: 50px;">
               <div class="ui container">
@@ -63,12 +63,30 @@
 </template>
 
 <script>
+import {mapGetters, mapActions} from 'vuex'
+
 export default {
-  name: 'hello',
+  name: 'home',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      page: 'Home',
+      show: true
     }
+  },
+  methods: {
+    ...mapActions([
+      'userSignoutMethod',
+      'checkTokenFromLocalStorageMethod'
+    ]),
+    getUserSignout () {
+      this.userSignoutMethod()
+    }
+  },
+  computed: mapGetters({
+      isLogin: 'getLoginStatus'
+  }),
+  created () {
+    this.checkTokenFromLocalStorageMethod()
   }
 }
 </script>
