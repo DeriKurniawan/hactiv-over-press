@@ -84,6 +84,7 @@ const Store = new Vuex.Store({
                             token: response.data.token
                         }
                         commit('setDeleteUserData', userData)
+                        commit('setSigninInfo')
                     })
                 }
             })
