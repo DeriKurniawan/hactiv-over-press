@@ -1,16 +1,16 @@
 <template>
   <div class="hello">
     <div>
-      <div class="ui huge top secondary fixed menu" id="top-menu">
+      <div class="ui huge top secondary pointing fixed menu" id="top-menu">
         <router-link to="/" class="item" style="padding-left: 80px;">
           <img src="" alt="">
-          &nbsp&nbsp&nbsp&nbsp&nbsp&nbspHacktiv<b>OverFlow</b>
+          &nbsp&nbsp&nbsp&nbsp&nbsp&nbspHacktiv<b>WowPress</b>
         </router-link>
         <router-link to="/" active-class="active" class="item" exact>
           Home
         </router-link>
         <router-link to="/users" active-class="active" class="item" exact>
-          Members
+          Your Articles
         </router-link>
         <div class="right menu" style="padding-right: 70px;">
           <div class="item">
@@ -22,13 +22,13 @@
           <router-link to="/signin" active-class="active" class="item" exact v-if="!isLogin">
             Login
           </router-link>
-          <a class="item" @click="getUserSignout" v-if="isLogin">
+          <a class="item">
             Sign Out
           </a>
         </div>
       </div>
     </div>
-
+    <!--<router-view></router-view>-->
     <div class="ui fluid container" style="padding-top: 40px;">
           <div class="ui inverted vertical footer segment" style="height: 230px; padding-top: 50px;">
               <div class="ui container">
@@ -75,21 +75,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+.ui.fixed.menu {
+    background-color: rgba(255, 255, 255, 0.88);
+    border-top-width: 20px 0px 0px 0px;
+    border-top-style: solid;
+    border-top-color: orange;
+  }
 </style>
